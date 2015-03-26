@@ -5,29 +5,40 @@
 <title>Newseum</title>
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
-body {
+body, html{
+	width:100%;
+	height:100%;
 		padding-top: 3px;
-		padding-right: 50px;
+		padding-right: 0px;
 		padding-bottom: 5px;
-		padding-left: 50px;
-	 background: -webkit-linear-gradient( #DDD, #EEE); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient( #DDD, #EEE); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient( #DDD, #EEE); /* For Firefox 3.6 to 15 */
-    background: linear-gradient( #DDD, #EEE); /* Standard syntax (must be last) */
+		padding-left: 0px;
+	 background: -webkit-linear-gradient( #3CF,#FFF); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient( #3CF,#FFF); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient( #3CF,#FFF); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#3CF,#FFF); /* Standard syntax (must be last) */
 	}
+	iframe {
+			frameborder:0;
+			overflow:hidden;
+}
 </style>
 </head>
 
 <body>
-<div class="row">
-        <div id="test" class="col-lg-6"></div>
-        <div id="test2" class="col-lg-6"></div>
-</div>
-<br><br><br>
-<div class="row">
-            <div id="test3" class="col-lg-6"></div>
-            <div id="test4" class="col-lg-6"></div>
-</div>
+		<div id="title" class="col-md-12" style="height:1%"></div>
+        <br>
+		<div id="author" class="col-md-12" style="height:0.5%"></div>
+        <br>
+        <div id="date" class="col-md-12" style="height:0.5%"></div>
+        <br>
+		<div id="body" class="col-md-12" style="height:2%"></div>
+        <br> <br>
+        <div class="row" style="height:96%;width:100%">
+        <div class="col-lg-1"></div>
+        <div id="test" class="col-lg-10" style="height:96%"></div>
+        <div class="col-lg-1"></div>
+        </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
  <!-- Include all compiled plugins (below), or include individual files as needed -->
  <script src="js/bootstrap.min.js"></script>
@@ -35,10 +46,10 @@ body {
 <script>
 $( document ).ready(function() 
 				{
-					var interval=setTimeout(onInterval,10000);
-					var intern=setInterval(onInterval,600000);
+					var interval=setTimeout(onTimeout,5000);
+					var intern=setInterval(onInterval,60000);
 				});
-function onInterval(){			
+function onTimeout(){			
 var myhttp = new XMLHttpRequest();
 var url = "http://localhost:3600/test";
 myhttp.open('GET', url, true);
@@ -46,7 +57,8 @@ myhttp.open('GET', url, true);
            				if ((myhttp.readyState == 4) && (myhttp.status == 200)){
                			//alert(myhttp.responseText);
 						data=myhttp.responseText;
-						$('#test').html("<img width='100%' height='40%' src="+data+"\>")
+						console.log(data);
+						$('#test').html("<embed width='100%' height='100%' src="+data+" type='application/pdf'>")
            			}
            			else if ((myhttp.readyState == 4) && (myhttp.status != 200))
            			{
@@ -55,13 +67,13 @@ myhttp.open('GET', url, true);
 				}
 				myhttp.send();
 var myhttp2 = new XMLHttpRequest();
-var url2 = "http://localhost:3600/test2";
+var url2 = "http://localhost:3600/author";
 myhttp2.open('GET', url2, true);
        			myhttp2.onreadystatechange = function() {        
            				if ((myhttp2.readyState == 4) && (myhttp2.status == 200)){
                			//alert(myhttp2.responseText);
 						data1=myhttp2.responseText;
-						$('#test2').html("<img width='100%' height='40%' src="+data1+"\>")
+						$('#author').html("<p>"+data1+"<\p>")
            			}
            			else if ((myhttp2.readyState == 4) && (myhttp2.status != 200))
            			{
@@ -70,13 +82,13 @@ myhttp2.open('GET', url2, true);
 				}
 				myhttp2.send();
 var myhttp3 = new XMLHttpRequest();
-var url3 = "http://localhost:3600/test3";
+var url3 = "http://localhost:3600/title";
 myhttp3.open('GET', url3, true);
        			myhttp3.onreadystatechange = function() {        
            				if ((myhttp3.readyState == 4) && (myhttp3.status == 200)){
                			//alert(myhttp3.responseText);
 						data3=myhttp3.responseText;
-						$('#test3').html("<img width='100%' height='40%' src="+data3+"\>")
+						$('#title').html("<p>"+data3+"<\p>")
            			}
            			else if ((myhttp3.readyState == 4) && (myhttp3.status != 200))
            			{
@@ -85,13 +97,13 @@ myhttp3.open('GET', url3, true);
 				}
 				myhttp3.send();
 var myhttp4 = new XMLHttpRequest();
-var url4 = "http://localhost:3600/test4";
+var url4 = "http://localhost:3600/date";
 myhttp4.open('GET', url4, true);
        			myhttp4.onreadystatechange = function() {        
            				if ((myhttp4.readyState == 4) && (myhttp4.status == 200)){
                			//alert(myhttp4.responseText);
 						data4=myhttp4.responseText;
-						$('#test4').html("<img width='100%' height='40%' src="+data4+"\>")
+						$('#date').html("<p>"+data4+"<\p>")
            			}
            			else if ((myhttp4.readyState == 4) && (myhttp4.status != 200))
            			{
@@ -99,7 +111,41 @@ myhttp4.open('GET', url4, true);
            			}
 				}
 				myhttp4.send();
+var myhttp5 = new XMLHttpRequest();
+var url5 = "http://localhost:3600/details";
+myhttp5.open('GET', url5, true);
+       			myhttp5.onreadystatechange = function() {        
+           				if ((myhttp5.readyState == 4) && (myhttp5.status == 200)){
+               			//alert(myhttp4.responseText);
+						data5=myhttp5.responseText;
+						console.log(data5);
+						$('#body').html("<p>"+data5+"<\p>")
+           			}
+           			else if ((myhttp5.readyState == 4) && (myhttp5.status != 200))
+           			{
+               			console.log("Error in Connection");
+           			}
+				}
+				myhttp5.send();
 
+}
+function onInterval(){			
+var myhttp = new XMLHttpRequest();
+var url = "http://localhost:3600/test";
+myhttp.open('GET', url, true);
+       			myhttp.onreadystatechange = function() {        
+           				if ((myhttp.readyState == 4) && (myhttp.status == 200)){
+               			//alert(myhttp.responseText);
+						data=myhttp.responseText;
+						console.log(data);
+						$('#test').html("<iframe height='100%'  src="+data+" >")
+           			}
+           			else if ((myhttp.readyState == 4) && (myhttp.status != 200))
+           			{
+               			console.log("Error in Connection");
+           			}
+				}
+				myhttp.send();
 }
 
 </script>

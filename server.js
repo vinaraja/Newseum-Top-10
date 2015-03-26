@@ -9,10 +9,10 @@ var http=require ('http');
 var links=[];
 var jpg=[];
 var flag=true;
-var x;
-var y;
-var z;
-var u;
+var data2;
+var data3;
+var data4;
+var data5;
 var app = connect()
 	.use(connect.bodyParser())
 	.use(connect.static('public'))
@@ -21,64 +21,83 @@ var app = connect()
 	// Let's scrape Anchorman 2
 	
 	//url = 'http://www.newseum.org/todaysfrontpages/?tfp_show=100';
-    if(flag==true)
+	if (flag==true)
 	{
-	request("http://www.newseum.org/todaysfrontpages/?tfp_show=100", function(error, response, html){
+	request("http://www.newseum.org/todaysfrontpages/?tfp_display=topten", function(error, response, html){
 		if(!error){
 			var $ = cheerio.load(html);
-
-			//var title, release, rating;
-			//var json = { title : "", release : "", rating : ""};
 			var count=0;
 			var i=0;
 			$('a').filter(function(){
 		        var data = $(this).attr('href');
                 count++;
 				
-				if(count>31&&count<231)
+				if(count>24&&count<45)
 				{
-					links.push("http://www.newseum.org"+data);
-					url2 = links[i]; 
-					i++;
-		  			//console.log(url2); 
-	       				request(url2, function(error, response, html){
-								if(!error){
-						
-												var $ = cheerio.load(html);
-									
-												//var title, release, rating;
-												//var json = { title : "", release : "", rating : ""};
-												//console.log("function called");
-												var k=0;
-												$('.colorbox-1230').filter(function(){
-													//console.log("function2 called");
-													var data1 = $(this).attr('src');
-													
-													if(data1.search('.jpg')&&k==1&&jpg.length<100)
-													{jpg.push('"'+data1+'"');}
-													k++;
-													
-											
-												})		       
-											}
-									
-		
-							})
-							
-							
+					if(count%2!=0)
+					{
+						links.push("http://www.newseum.org"+data);
+						url2 = links[i]; 
+						i++;		
+					}		
 				}
 				
 				
 		         
 	        })
+			$('.tfp-top-ten-body').filter(function(){
+				data2=$(this).text();
+				console.log(data2);
+				
+			})
+			$('.tfp-top-ten-title').filter(function(){
+				data3=$(this).text();
+				console.log(data3);
+				
+			})
+			$('.tfp-top-ten-author').filter(function(){
+				data4=$(this).text();
+				console.log(data4);
+				
+			})
+			$('.tfp-date').filter(function(){
+				data5=$(this).text();
+				console.log(data5);
+				
+			})
+			
 					       
 		} 
-			
-		flag=false;
-	
+		for (i=0;i<links.length;i++)
+	  {
+		  url2=links[i];		  
+		  request(url2, function(error, response, html){
+								if(!error){
+									var $ = cheerio.load(html);
+									var kl=0;
+									$('a').filter(function(){
+										  var data1 = $(this).attr('href');
+										  var k=''+data1+'';
+										    
+										  if(k.match('.pdf'))
+										  jpg.push('"'+k+'"');
+										  kl++;
+										  
+										  /**if(k%2!=0)
+										  jpg.push('"'+data1+'"');
+										  k++;**/
+									})
+									
+								}
+		  })
+		  
+	  }	
+	  
 	})
-	
+	  
+	  flag=false;
 	}
+	
 	function random(high,low) {
     high++;
     return Math.floor((Math.random())*(high-low))+low;
@@ -88,58 +107,36 @@ var app = connect()
 		if(uri === "/test"){
 			x=random(0,jpg.length);
 			console.log(x);
-			if(x!=y&&x!=u&&x!=z){
-	   res.writeHead(200, {"Content-Type": "text/plain"});	
-	     						
+	   res.writeHead(200, {"Content-Type": "text/plain"});						
 		res.end(jpg[x]);
-			}
-			else
-			x=random(0,jpg.length);
 		//console.log(jpg.length);
 	   
 		}
-		if(uri === "/test2"){
-			y=random(0,jpg.length);
-			console.log(y);
-			if(y!=x&&y!=u&&y!=z){
-	   res.writeHead(200, {"Content-Type": "text/plain"});	
-	     						
-		res.end(jpg[y]);
-			}
-			else
-			y=random(0,jpg.length);
+		if(uri === "/author"){
+			
+	   res.writeHead(200, {"Content-Type": "text/plain"});						
+		res.end(data4);
 		//console.log(jpg.length);
 	   
 		}
-		if(uri === "/test3"){
-			z=random(0,jpg.length);
-			console.log(z);
-			if(z!=x&&z!=u&&z!=y){
-				
-	   res.writeHead(200, {"Content-Type": "text/plain"});	
-	     						
-		res.end(jpg[z]);
-			}
-			else
-			z=random(0,jpg.length);
+		if(uri === "/details"){
+	   res.writeHead(200, {"Content-Type": "text/plain"});						
+		res.end(data2);
 		//console.log(jpg.length);
 	   
 		}
-		if(uri === "/test4"){
-			u=random(0,jpg.length);
-			console.log(u);
-			if(u!=x&&u!=z&&u!=y)
-	   {
-		   res.writeHead(200, {"Content-Type": "text/plain"});	
-	       res.end(jpg[u]);
-	   }
-	   else
-	     u=random(0,jpg.length);
+		if(uri === "/date"){
+	   res.writeHead(200, {"Content-Type": "text/plain"});						
+		res.end(data5);
 		//console.log(jpg.length);
 	   
 		}
-		
-		
+		if(uri === "/title"){
+	   res.writeHead(200, {"Content-Type": "text/plain"});						
+		res.end(data3);
+		//console.log(jpg.length);
+	   
+		}
 })
 
 app.listen('3600')
