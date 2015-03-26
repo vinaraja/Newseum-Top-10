@@ -8,7 +8,7 @@
     "express"    : "latest",
     "request"    : "latest",
 	"url"        : "0.10.1",
-    "cheerio"    : "latest"'
+    "cheerio"    : "latest",
 	 "connect"   : "1.9.2"
   }
 }
