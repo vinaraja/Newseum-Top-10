@@ -13,6 +13,7 @@ var data2;
 var data3;
 var data4;
 var data5;
+var i=0;
 var app = connect()
 	.use(connect.bodyParser())
 	.use(connect.static('public'))
@@ -74,18 +75,22 @@ var app = connect()
 		  request(url2, function(error, response, html){
 								if(!error){
 									var $ = cheerio.load(html);
-									var kl=0;
-									$('a').filter(function(){
-										  var data1 = $(this).attr('href');
-										  var k=''+data1+'';
+									var k=0;
+									$('.colorbox-1230').filter(function(){
+										  var data1 = $(this).attr('src');
+										  //var k=''+data1+'';
 										    
-										  if(k.match('.pdf'))
+										  /**if(k.match('.pdf'))
 										  jpg.push('"'+k+'"');
-										  kl++;
+										  kl++;**/
 										  
-										  /**if(k%2!=0)
-										  jpg.push('"'+data1+'"');
-										  k++;**/
+										  if(k%2!=0)
+										  {
+											  jpg.push('"'+data1+'"');
+											  console.log(data1);
+											  
+										  }
+										  k++;
 									})
 									
 								}
@@ -106,9 +111,20 @@ var app = connect()
 		var uri = parsed_url.pathname;
 		if(uri === "/test"){
 			x=random(0,jpg.length);
-			console.log(x);
-	   res.writeHead(200, {"Content-Type": "text/plain"});						
-		res.end(jpg[x]);
+			
+	   res.writeHead(200, {"Content-Type": "text/plain"});	
+	   if(i<10)
+	   {					
+		res.end(jpg[i]);
+		console.log(i);
+		i++
+	   }
+	   else
+	   {
+		   i=0;
+		   res.end(jpg[i]);
+		   i++;
+	   }
 		//console.log(jpg.length);
 	   
 		}

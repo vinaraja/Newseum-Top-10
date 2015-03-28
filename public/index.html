@@ -8,36 +8,60 @@
 body, html{
 	width:100%;
 	height:100%;
-		padding-top: 3px;
+		padding-top:0px;
 		padding-right: 0px;
 		padding-bottom: 5px;
 		padding-left: 0px;
-	 background: -webkit-linear-gradient( #3CF,#FFF); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient( #3CF,#FFF); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient( #3CF,#FFF); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#3CF,#FFF); /* Standard syntax (must be last) */
+		margin:0px;
+		background-color:#EEE;
 	}
-	iframe {
-			frameborder:0;
-			overflow:hidden;
+	row {
+			margin:1;
 }
 </style>
 </head>
 
 <body>
-		<div id="title" class="col-md-12" style="height:1%"></div>
-        <br>
-		<div id="author" class="col-md-12" style="height:0.5%"></div>
-        <br>
-        <div id="date" class="col-md-12" style="height:0.5%"></div>
-        <br>
-		<div id="body" class="col-md-12" style="height:2%"></div>
-        <br> <br>
-        <div class="row" style="height:96%;width:100%">
-        <div class="col-lg-1"></div>
-        <div id="test" class="col-lg-10" style="height:96%"></div>
-        <div class="col-lg-1"></div>
+		<div class="col-lg-3" style="height:100%;" ></div>
+        <div class="col-lg-6" style="height:100%;">
+        			<div class="row" style="height:10%;background-color:#09F">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-5" style="height:100%;">
+                                <img src="img/Newseum_wtag_CMYK1.png" style="height:100%; position:absolute; bottom:0;">
+                        </div>
+                        <div class="col-lg-5" style="height:100%;">
+                                <h3 style="font-family:'Arial Black', Gadget, sans-serif; color:#FFF;position:absolute; bottom:0;">TODAY'S TOP TEN PAGES</h3>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        
+                    </div>
+                    
+                    
+                    <div class="row" style="background-color:#FFF; height:auto;min-height:70%">
+                        <div class="col-lg-1"></div>
+                        <div id="test" class="col-lg-10" style="height:100%;"></div>
+                        <div class="col-lg-1" ></div>
+                    </div>
+                    
+                    
+                    <div class="row" style="height:auto;min-height:20%;background-color:#000;">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-10" >
+                            <div id="date" class="col-md-12" style="color:#09F"></div>
+                            <div id="title" class="col-md-12" style="color:#09F"></div>
+                            <div id="author" class="col-md-12" style="color:#FFF"></div>
+                            <div id="body" class="col-md-12" style="color:#FFF"></div>
+                            
+                        </div>
+                        <div class="col-lg-1"></div>
+                        
+                    </div>
+        
         </div>
+        <div class="col-lg-3" style="height:100%;"></div>
+		
+        
+        
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
  <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -47,7 +71,7 @@ body, html{
 $( document ).ready(function() 
 				{
 					var interval=setTimeout(onTimeout,5000);
-					var intern=setInterval(onInterval,60000);
+					var intern=setInterval(onInterval,6000);
 				});
 function onTimeout(){			
 var myhttp = new XMLHttpRequest();
@@ -58,7 +82,7 @@ myhttp.open('GET', url, true);
                			//alert(myhttp.responseText);
 						data=myhttp.responseText;
 						console.log(data);
-						$('#test').html("<embed width='100%' height='100%' src="+data+" type='application/pdf'>")
+						$('#test').html("<img style='width:100%; height:100%;' src="+data+" >")
            			}
            			else if ((myhttp.readyState == 4) && (myhttp.status != 200))
            			{
@@ -73,7 +97,7 @@ myhttp2.open('GET', url2, true);
            				if ((myhttp2.readyState == 4) && (myhttp2.status == 200)){
                			//alert(myhttp2.responseText);
 						data1=myhttp2.responseText;
-						$('#author').html("<p>"+data1+"<\p>")
+						$('#author').html("<p style='font-size:2rem'>"+data1+"<\p>")
            			}
            			else if ((myhttp2.readyState == 4) && (myhttp2.status != 200))
            			{
@@ -88,7 +112,7 @@ myhttp3.open('GET', url3, true);
            				if ((myhttp3.readyState == 4) && (myhttp3.status == 200)){
                			//alert(myhttp3.responseText);
 						data3=myhttp3.responseText;
-						$('#title').html("<p>"+data3+"<\p>")
+						$('#title').html("<p style='font-size:5rem'>"+data3+"<\p>")
            			}
            			else if ((myhttp3.readyState == 4) && (myhttp3.status != 200))
            			{
@@ -103,7 +127,7 @@ myhttp4.open('GET', url4, true);
            				if ((myhttp4.readyState == 4) && (myhttp4.status == 200)){
                			//alert(myhttp4.responseText);
 						data4=myhttp4.responseText;
-						$('#date').html("<p>"+data4+"<\p>")
+						$('#date').html("<p style='font-size:3rem'>"+data4+"<\p>")
            			}
            			else if ((myhttp4.readyState == 4) && (myhttp4.status != 200))
            			{
@@ -119,7 +143,7 @@ myhttp5.open('GET', url5, true);
                			//alert(myhttp4.responseText);
 						data5=myhttp5.responseText;
 						console.log(data5);
-						$('#body').html("<p>"+data5+"<\p>")
+						$('#body').html("<p style='font-size:1.5rem'>"+data5+"<\p>")
            			}
            			else if ((myhttp5.readyState == 4) && (myhttp5.status != 200))
            			{
@@ -138,7 +162,7 @@ myhttp.open('GET', url, true);
                			//alert(myhttp.responseText);
 						data=myhttp.responseText;
 						console.log(data);
-						$('#test').html("<iframe height='100%'  src="+data+" >")
+						$('#test').html("<img style='width:100%; height:100%;' src="+data+" >")
            			}
            			else if ((myhttp.readyState == 4) && (myhttp.status != 200))
            			{
