@@ -4,10 +4,15 @@ var fs = require('fs');
 var request = require('request');
 var cheerio = require('cheerio');
 var url = require("url");
+var url1 = require("url");
 //var app     = express();
 var http=require ('http');
 var links=[];
 var jpg=[];
+var location=[];
+var lattitude1=[];
+var longitude1=[];
+var city1=[];
 var flag=true;
 var data2;
 var data3;
@@ -48,27 +53,77 @@ var app = connect()
 	        })
 			$('.tfp-top-ten-body').filter(function(){
 				data2=$(this).text();
-				console.log(data2);
+				//console.log(data2);
 				
 			})
 			$('.tfp-top-ten-title').filter(function(){
 				data3=$(this).text();
-				console.log(data3);
+				//console.log(data3);
 				
 			})
 			$('.tfp-top-ten-author').filter(function(){
 				data4=$(this).text();
-				console.log(data4);
+				//console.log(data4);
 				
 			})
 			$('.tfp-date').filter(function(){
 				data5=$(this).text();
-				console.log(data5);
+				//console.log(data5);
+				
+			})
+			$('.thumbnail-group-body').filter(function(){
+				var data6=$(this).children('p').text();
+				location.push(data6);
 				
 			})
 			
 					       
 		} 
+		for (i=0;i<location.length;i++)
+		{
+			var place=location[i].toString();
+			var city=place.split(",");
+			//console.log(city[0]);
+			city1.push(city[0]);
+		};
+			
+			for (i=0;i<city1.length;i++)
+			{
+				
+		url1="http://open.mapquestapi.com/geocoding/v1/address?location="+city1[i]+"&key=Fmjtd%7Cluu82q6bnl%2Cbn%3Do5-94t256";
+		request(url1, function(error, response){
+			if(!error){
+				//console.log(i);
+				 var data=response.body;
+				 //console.log(data);
+				var obj=JSON.parse(data);
+				var obj1=obj.results[0];
+				var obj2=JSON.stringify(obj1);
+				var desiredlocation=obj2.split("providedLocation");
+				desiredlocation1=desiredlocation[1].split('location":"');
+				actuallocation=desiredlocation1[1].split('"');
+				console.log(actuallocation[0]);
+				var res=obj2.split("lng");
+				var lng=res[1].split(",");
+				var lat=lng[1].split(":");
+				var lat1=lat[1].split("}");
+				var lattitude=lat1[0];
+				lattitude1[i]=lattitude;
+				//console.log(city[0]);
+				console.log(lattitude);
+				var lng1=(lng[0].split(":"));
+				var longitude=lng1[1];
+				console.log(longitude);
+				longitude1[i]=longitude;
+			}
+			else
+			{
+				console.log(error);
+			}
+			
+		})
+	}
+		
 		for (i=0;i<links.length;i++)
 	  {
 		  url2=links[i];		  
@@ -87,7 +142,7 @@ var app = connect()
 										  if(k%2!=0)
 										  {
 											  jpg.push('"'+data1+'"');
-											  console.log(data1);
+											 // console.log(data1);
 											  
 										  }
 										  k++;
@@ -116,6 +171,7 @@ var app = connect()
 	   if(i<10)
 	   {					
 		res.end(jpg[i]);
+		console.log(jpg[i]);
 		console.log(i);
 		i++
 	   }
