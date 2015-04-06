@@ -8,6 +8,8 @@ var url1 = require("url");
 //var app     = express();
 var http=require ('http');
 var links=[];
+var latlngcity=[];
+var urlcity=[];
 var jpg=[];
 var location=[];
 var lattitude1=[];
@@ -23,10 +25,6 @@ var app = connect()
 	.use(connect.bodyParser())
 	.use(connect.static('public'))
 	.use(function (req, res) {
-
-	// Let's scrape Anchorman 2
-	
-	//url = 'http://www.newseum.org/todaysfrontpages/?tfp_show=100';
 	if (flag==true)
 	{
 	request("http://www.newseum.org/todaysfrontpages/?tfp_display=topten", function(error, response, html){
@@ -103,18 +101,19 @@ var app = connect()
 				desiredlocation1=desiredlocation[1].split('location":"');
 				actuallocation=desiredlocation1[1].split('"');
 				console.log(actuallocation[0]);
+				latlngcity.push('"'+actuallocation[0]+'"');
 				var res=obj2.split("lng");
 				var lng=res[1].split(",");
 				var lat=lng[1].split(":");
 				var lat1=lat[1].split("}");
 				var lattitude=lat1[0];
-				lattitude1[i]=lattitude;
+				lattitude1.push(lattitude);
 				//console.log(city[0]);
 				console.log(lattitude);
 				var lng1=(lng[0].split(":"));
 				var longitude=lng1[1];
 				console.log(longitude);
-				longitude1[i]=longitude;
+				longitude1.push(longitude);
 			}
 			else
 			{
@@ -147,6 +146,14 @@ var app = connect()
 										  }
 										  k++;
 									})
+									$('.tfp-meta-info').filter(function(){
+										var data1 = $(this).text();
+										var data=data1.split('in ');
+										var d=data[1].split(',');
+										urlcity.push('"'+d[0]+'"');
+										//console.log(d[0]);
+										
+									})
 									
 								}
 		  })
@@ -158,21 +165,27 @@ var app = connect()
 	  flag=false;
 	}
 	
-	function random(high,low) {
-    high++;
-    return Math.floor((Math.random())*(high-low))+low;
-	}
 	var parsed_url = url.parse(req.url);
 		var uri = parsed_url.pathname;
 		if(uri === "/test"){
-			x=random(0,jpg.length);
+			//x=random(0,jpg.length);
 			
 	   res.writeHead(200, {"Content-Type": "text/plain"});	
 	   if(i<10)
 	   {					
 		res.end(jpg[i]);
+		console.log(urlcity[i]);		
 		console.log(jpg[i]);
-		console.log(i);
+		//console.log(i);
+		for(j=0;j<latlngcity.length;j++)
+		  {
+			   if(latlngcity[j]==urlcity[i])
+		   {
+			   console.log(latlngcity[j]);
+			   console.log(lattitude1[j]);
+			   console.log(longitude1[j]);
+		   }
+		  }
 		i++
 	   }
 	   else
@@ -212,5 +225,5 @@ var app = connect()
 })
 
 app.listen('3600')
-console.log('Magic happens on port 8081');
+console.log('Magic happens on port 3600');
 exports = module.exports = app; 
