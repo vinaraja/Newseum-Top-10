@@ -21,6 +21,7 @@ var data3;
 var data4;
 var data5;
 var i=0;
+var arrayindex;
 var app = connect()
 	.use(connect.bodyParser())
 	.use(connect.static('public'))
@@ -35,8 +36,9 @@ var app = connect()
 			$('a').filter(function(){
 		        var data = $(this).attr('href');
                 count++;
-				
-				if(count>24&&count<45)
+				//console.log(count);
+				//console.log(data);
+				if(count>20&&count<45)
 				{
 					if(count%2!=0)
 					{
@@ -137,7 +139,7 @@ var app = connect()
 										  /**if(k.match('.pdf'))
 										  jpg.push('"'+k+'"');
 										  kl++;**/
-										  
+										  //console.log(data1);
 										  if(k%2!=0)
 										  {
 											  jpg.push('"'+data1+'"');
@@ -171,19 +173,21 @@ var app = connect()
 			//x=random(0,jpg.length);
 			
 	   res.writeHead(200, {"Content-Type": "text/plain"});	
-	   if(i<10)
+	   if(i<jpg.length)
 	   {					
 		res.end(jpg[i]);
-		console.log(urlcity[i]);		
-		console.log(jpg[i]);
+		//console.log(urlcity[i]);	
+		//console.log(jpg.length);	
+		//console.log(jpg[i]);
 		//console.log(i);
 		for(j=0;j<latlngcity.length;j++)
 		  {
 			   if(latlngcity[j]==urlcity[i])
 		   {
-			   console.log(latlngcity[j]);
-			   console.log(lattitude1[j]);
-			   console.log(longitude1[j]);
+			  // console.log(latlngcity[j]);
+			   //console.log(lattitude1[j]);
+			  console.log(j);
+			   arrayindex=j;
 		   }
 		  }
 		i++
@@ -191,7 +195,20 @@ var app = connect()
 	   else
 	   {
 		   i=0;
+		   
 		   res.end(jpg[i]);
+		   console.log(jpg[i]);
+		   console.log(i);
+		   for(j=0;j<latlngcity.length;j++)
+		  {
+			   if(latlngcity[j]==urlcity[i])
+		   {
+			  // console.log(latlngcity[j]);
+			   //console.log(lattitude1[j]);
+			   console.log(j);
+			   arrayindex=j;
+		   }
+		  }
 		   i++;
 	   }
 		//console.log(jpg.length);
@@ -220,6 +237,22 @@ var app = connect()
 	   res.writeHead(200, {"Content-Type": "text/plain"});						
 		res.end(data3);
 		//console.log(jpg.length);
+	   
+		}
+		if(uri === "/lattitude"){
+	   res.writeHead(200, {"Content-Type": "text/plain"});	
+	  // console.log(latlngcity[arrayindex]);					
+		res.end(lattitude1[arrayindex]);
+		//console.log(arrayindex);
+		//console.log(lattitude1[arrayindex]);
+	   
+		}
+		if(uri === "/longitude"){
+	   res.writeHead(200, {"Content-Type": "text/plain"});	
+	  // console.log(latlngcity[arrayindex]);					
+		res.end(longitude1[arrayindex]);
+		//console.log(arrayindex);
+		//console.log(longitude1[arrayindex]);
 	   
 		}
 })
