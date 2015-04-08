@@ -84,20 +84,45 @@ $( document ).ready(function()
 					var intern=setInterval(onInterval,60000);
 				});
 function createMap(x,y){
-						var map;
-						var tileLayer;
-						var d=x;
-						var k=y;
-						document.getElementById('weathermap').innerHTML = "<div id='map' style='width:100%;' ></div>";
-				 map = new L.map('map').setView(new L.LatLng(d,k), 13);
+						if(isNaN(x)&&isNaN(y))
+						{
+							console.log(x+"  , "+y);
+							document.getElementById('weathermap').innerHTML = "<div id='map' style='width:100%;' ></div>";
+							 map = new L.map('map').setView(new L.LatLng(-33.88,77.01), 8);
 							 tileLayer = new L.tileLayer('https://{s}.tiles.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={token}', {
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			subdomains: ['a','b','c','d'],
 			mapId:'vinaraja.llegn2in',
 			token: 'pk.eyJ1IjoidmluYXJhamEiLCJhIjoiUUVwOGhLbyJ9.-M842SBmD-KQNjs7NUQV5g#3/0.00/0.00',
-			maxZoom:'25'
+			zoomControl: false,
+			noWrap: true,
+			minZoom: 8,
+    		maxZoom: 15
+			
 		}).addTo(map);
+						}
+						else
+						{
+						var map;
+						var tileLayer;
+						var d=x;
+						var k=y;
+						document.getElementById('weathermap').innerHTML = "<div id='map' style='width:100%;' ></div>";
+				 map = new L.map('map').setView(new L.LatLng(d,k), 8);
+							 tileLayer = new L.tileLayer('https://{s}.tiles.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={token}', {
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			subdomains: ['a','b','c','d'],
+			mapId:'vinaraja.llegn2in',
+			token: 'pk.eyJ1IjoidmluYXJhamEiLCJhIjoiUUVwOGhLbyJ9.-M842SBmD-KQNjs7NUQV5g#3/0.00/0.00',
+			zoomControl: false,
+			noWrap: true,
+			minZoom: 8,
+    		maxZoom: 15
+			
+		}).addTo(map);
+		 //var zoom=L.control.zoom()
 					var marker = L.marker([d, k]).addTo(map);
+						}
 			//map.remove();
 	
 }
@@ -271,6 +296,8 @@ function onTimeout1()
 {
 //console.log(lattitude,longitude);
 createMap(lattitude,longitude);
+//testcase
+//createMap("a","b");
 }
 
 </script>
